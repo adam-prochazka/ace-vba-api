@@ -30,7 +30,6 @@ class LoadDatabase {
 
         return args -> {
             log.info("Preloading " + repository.save(new Badge("level1", "role1")));
-            log.info("Preloading " + repository.save(new Badge("level1", "role2")));
             log.info("Preloading " + repository.save(new Badge("level2", "role1")));
             log.info("Preloading " + repository.save(new Badge("level2", "role2")));
         };
