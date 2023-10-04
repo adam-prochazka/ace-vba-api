@@ -10,7 +10,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "badges")
-public class Badge implements LongIdDomainEntity{
+public class Badge {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "badge_seq")
     @SequenceGenerator(name = "badge_seq", allocationSize = 1)

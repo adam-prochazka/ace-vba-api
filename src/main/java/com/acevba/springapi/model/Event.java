@@ -10,7 +10,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "events")
-public class Event implements LongIdDomainEntity {
+public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "event_seq")
     @SequenceGenerator(name = "event_seq", allocationSize = 1)
