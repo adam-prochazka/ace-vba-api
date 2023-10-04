@@ -1,50 +1,60 @@
 package com.acevba.springapi.controller;
 
-import com.acevba.springapi.business.BadgeService;
+import com.acevba.springapi.exception.ResourceNotFoundException;
 import com.acevba.springapi.model.Badge;
-import org.springframework.http.HttpStatus;
+import com.acevba.springapi.repository.BadgeRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/badges")
+@RequestMapping("/api")
 public class BadgeController {
-    private final BadgeService badgeService;
 
-    public BadgeController(BadgeService badgeService) {
-        this.badgeService = badgeService;
+    @Autowired
+    private BadgeRepository badgeRepository;
+
+    @GetMapping("/badges")
+    public List<Badge> getAllBadges() {
+        List<Badge> badges = new ArrayList<>();
+        badges.addAll(badgeRepository.findAll());
+        return badges;
     }
 
-    @PostMapping
-    public Badge create(@RequestBody Badge badge) {
-        try {
-            return badgeService.create(badge);
-        } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT);
-        }
-    }
-    
-    @GetMapping
-    public Collection<Badge> getAll() {
-        return badgeService.getAll().stream().toList();
+    @GetMapping("/badges/{id}")
+    public Badge getBadgeById(@PathVariable Long id) {
+        return badgeRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Badge with id = " + id));
     }
 
-    @GetMapping("/{id}")
-    public Badge getOne(@PathVariable Long id) {
-        Optional<Badge> optionalBadge = badgeService.getById(id);
-        return optionalBadge.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    @PostMapping("/badges")
+    public Badge createBadge(@RequestBody Badge badge) {
+        return badgeRepository.save(badge);
     }
 
-    @PutMapping("/{id}")
-    Badge update(@RequestBody Badge newBadge, @PathVariable Long id) {
-        return badgeService.update(newBadge, id);
+    /**
+     * Preserve id
+     */
+    @PutMapping("/badges/{id}")
+    Badge updateBadge(@RequestBody Badge badge, @PathVariable Long id) {
+        Badge _badge = badgeRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Badge with id = " + id));
+        _badge.setLevel(badge.getLevel());
+        _badge.setRole(badge.getRole());
+        _badge.setUsers(badge.getUsers());
+        return badgeRepository.save(_badge);
     }
 
-    @DeleteMapping("/{id}")
-    void delete(@PathVariable Long id) {
-        badgeService.deleteById(id);
+    @DeleteMapping("/badges/{id}")
+    void deleteBadge(@PathVariable Long id) {
+        badgeRepository.deleteById(id);
+    }
+
+    @DeleteMapping("/badges")
+    void deleteAllBadges() {
+        badgeRepository.deleteAll();
     }
 }
