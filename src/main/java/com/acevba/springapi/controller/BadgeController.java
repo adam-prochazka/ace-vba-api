@@ -2,7 +2,9 @@ package com.acevba.springapi.controller;
 
 import com.acevba.springapi.exception.ResourceNotFoundException;
 import com.acevba.springapi.model.Badge;
+import com.acevba.springapi.model.User;
 import com.acevba.springapi.repository.BadgeRepository;
+import com.acevba.springapi.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,9 @@ public class BadgeController {
 
     @Autowired
     private BadgeRepository badgeRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @GetMapping("/badges")
     public ResponseEntity<List<Badge>> getAllBadges() {
@@ -60,5 +65,25 @@ public class BadgeController {
     public ResponseEntity<HttpStatus> deleteAllBadges() {
         badgeRepository.deleteAll();
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PostMapping("/users/{userId}/badge")
+    public ResponseEntity<Badge> addbadge(@PathVariable(value = "userId") Long userId, @RequestBody Badge badgeReq) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User with id = " + userId));
+
+        Badge badge;
+
+        if (badgeReq.getId() == null)
+            badge = badgeRepository.save(badgeReq);
+
+        else
+            badge = badgeRepository.findById(badgeReq.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Badge with id = " + badgeReq.getId()));
+
+        user.addBadge(badge);
+        userRepository.save(user);
+        return new ResponseEntity<>(badge, HttpStatus.CREATED);
+
     }
 }

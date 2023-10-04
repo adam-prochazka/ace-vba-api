@@ -66,4 +66,14 @@ public class User {
     public Long getId() {
         return id;
     }
+
+    public void addBadge(Badge badge) {
+        badges.add(badge);
+        badge.getUsers().add(this);
+    }
+
+    public void addEvent(Event event) {
+        events.add(event);
+        event.getUsers().add(this);
+    }
 }
