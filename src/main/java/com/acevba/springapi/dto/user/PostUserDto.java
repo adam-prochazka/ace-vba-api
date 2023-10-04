@@ -1,4 +1,4 @@
-package com.acevba.springapi.api.dto.user;
+package com.acevba.springapi.dto.user;
 
 import java.io.Serializable;
 import java.util.Objects;

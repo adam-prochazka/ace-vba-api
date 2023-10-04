@@ -1,9 +1,8 @@
-package com.acevba.springapi.domain;
+package com.acevba.springapi.model;
 
 import jakarta.persistence.*;
 
 import java.util.LinkedHashSet;
-import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -14,7 +13,7 @@ public class User implements LongIdDomainEntity {
     @SequenceGenerator(name = "user_seq", allocationSize = 1)
     @Column(name = "id", nullable = false)
     private Long id;
-    @Column(name = "username", nullable = false, unique = true)
+    @Column(name = "username", nullable = false, unique = false)
     private String username;
     @ManyToMany
     @JoinTable(name = "users_badges",

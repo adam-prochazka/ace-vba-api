@@ -1,6 +1,6 @@
-package com.acevba.springapi.api.dto.badge;
+package com.acevba.springapi.dto.badge;
 
-import com.acevba.springapi.api.dto.user.UserDto;
+import com.acevba.springapi.dto.user.UserDto;
 
 import java.io.Serializable;
 import java.util.Objects;

@@ -1,6 +1,6 @@
 package com.acevba.springapi.business.abstracts;
 
-import com.acevba.springapi.domain.DomainEntity;
+import com.acevba.springapi.model.DomainEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Collection;

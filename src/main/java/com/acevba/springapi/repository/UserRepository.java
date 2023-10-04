@@ -1,6 +1,10 @@
-package com.acevba.springapi.dao;
+package com.acevba.springapi.repository;
 
-import com.acevba.springapi.domain.User;
+import com.acevba.springapi.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRepository extends JpaRepository<User, Long> {}
+import java.util.List;
+
+public interface UserRepository extends JpaRepository<User, Long> {
+    public List<User> findByUsername (String username);
+}

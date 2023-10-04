@@ -1,4 +1,4 @@
-package com.acevba.springapi.domain;
+package com.acevba.springapi.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;

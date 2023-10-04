@@ -1,8 +1,8 @@
 package com.acevba.springapi.business;
 
 import com.acevba.springapi.business.abstracts.AbstractLongIdService;
-import com.acevba.springapi.dao.UserRepository;
-import com.acevba.springapi.domain.User;
+import com.acevba.springapi.repository.UserRepository;
+import com.acevba.springapi.model.User;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;

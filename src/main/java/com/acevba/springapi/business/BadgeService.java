@@ -1,7 +1,7 @@
 package com.acevba.springapi.business;
 
 import com.acevba.springapi.business.abstracts.AbstractLongIdService;
-import com.acevba.springapi.domain.Badge;
+import com.acevba.springapi.model.Badge;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 

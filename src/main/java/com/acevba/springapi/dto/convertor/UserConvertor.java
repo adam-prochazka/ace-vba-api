@@ -1,7 +1,7 @@
-package com.acevba.springapi.api.dto.convertor;
+package com.acevba.springapi.dto.convertor;
 
-import com.acevba.springapi.api.dto.user.PostUserDto;
-import com.acevba.springapi.api.dto.user.UserDto;
+import com.acevba.springapi.dto.user.PostUserDto;
+import com.acevba.springapi.dto.user.UserDto;
 import com.acevba.springapi.model.User;
 
 public class UserConvertor {

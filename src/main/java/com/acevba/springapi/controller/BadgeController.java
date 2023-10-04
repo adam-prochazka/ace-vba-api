@@ -1,4 +1,4 @@
-package com.acevba.springapi.api.controller;
+package com.acevba.springapi.controller;
 
 import com.acevba.springapi.business.BadgeService;
 import com.acevba.springapi.model.Badge;
