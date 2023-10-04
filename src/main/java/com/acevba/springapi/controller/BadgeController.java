@@ -1,7 +1,7 @@
 package com.acevba.springapi.api.controller;
 
 import com.acevba.springapi.business.BadgeService;
-import com.acevba.springapi.domain.Badge;
+import com.acevba.springapi.model.Badge;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;

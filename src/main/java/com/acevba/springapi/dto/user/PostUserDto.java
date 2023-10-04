@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * DTO for {@link com.acevba.springapi.domain.User}
+ * DTO for {@link com.acevba.springapi.model.User}
  */
 public class PostUserDto implements Serializable {
     public void setUsername(String username) {

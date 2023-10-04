@@ -7,7 +7,7 @@ import java.util.Objects;
 import java.util.Set;
 
 /**
- * DTO for {@link com.acevba.springapi.domain.Badge}
+ * DTO for {@link com.acevba.springapi.model.Badge}
  */
 public class BadgeDto implements Serializable {
     private final Long id;

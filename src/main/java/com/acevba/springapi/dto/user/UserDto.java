@@ -1,13 +1,13 @@
 package com.acevba.springapi.api.dto.user;
 
-import com.acevba.springapi.domain.Badge;
+import com.acevba.springapi.model.Badge;
 
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.Set;
 
 /**
- * DTO for {@link com.acevba.springapi.domain.User}
+ * DTO for {@link com.acevba.springapi.model.User}
  */
 public class UserDto implements Serializable {
     private final Long id;
