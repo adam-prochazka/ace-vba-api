@@ -31,9 +31,15 @@ public class Badge {
     @JsonIgnore
     private Set<User> users = new LinkedHashSet<>();
 
+    public Badge() {}
+
     public Badge(String level, String role) {
         this.level = level;
         this.role = role;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public Set<User> getUsers() {
@@ -52,26 +58,12 @@ public class Badge {
         this.role = role;
     }
 
-//    public Color getColor() {
-//        return color;
-//    }
-//
-//    public void setColor(Color color) {
-//        this.color = color;
-//    }
-
-    public Badge() {}
-
     public String getLevel() {
         return level;
     }
 
     public void setLevel(String level) {
         this.level = level;
-    }
-
-    public Long getId() {
-        return id;
     }
 
     public void setId(Long id) {

@@ -31,15 +31,6 @@ public class Event {
     @JsonIgnore
     private Set<User> users = new LinkedHashSet<>();
 
-    public Set<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(Set<User> users) {
-        this.users = users;
-    }
-
-
     public Event() {}
 
     public Event(String name) {
@@ -49,6 +40,18 @@ public class Event {
     public Event(String name, String date) {
         this.name = name;
         this.date = date;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
     }
 
     public String getDate() {
@@ -65,10 +68,6 @@ public class Event {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Long getId() {
-        return id;
     }
 
     public void setId(Long id) {
