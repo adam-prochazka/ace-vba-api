@@ -16,14 +16,22 @@ public class User {
     @Column(name = "username", nullable = false, unique = false)
     private String username;
     @ManyToMany
-    @JoinTable(name = "users_badges",
+    @JoinTable(name = "user_badges",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "badge_id"))
     private Set<Badge> badges = new LinkedHashSet<>();
-    @ManyToMany
-    @JoinTable(name = "users_events",
+    @ManyToMany(
+            fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            }
+    )
+    @JoinTable(
+            name = "user_events",
             joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "event_id"))
+            inverseJoinColumns = @JoinColumn(name = "event_id")
+    )
     private Set<Event> events = new LinkedHashSet<>();
 
     public Set<Event> getEvents() {

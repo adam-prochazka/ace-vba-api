@@ -20,10 +20,15 @@ public class Badge {
     private String level;
     @Column(name = "role", nullable = false)
     private String role;
-//    @Column(name = "color")
-//    private Color color;
+    @ManyToMany(
+            fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            },
+            mappedBy = "badges"
+    )
     @JsonIgnore
-    @ManyToMany(mappedBy = "badges")
     private Set<User> users = new LinkedHashSet<>();
 
     public Badge(String level, String role) {

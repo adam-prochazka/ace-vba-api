@@ -20,9 +20,15 @@ public class Event {
     private String name;
     @Column(name = "date", length = 50)
     private String date;
-
+    @ManyToMany(
+            fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            },
+            mappedBy = "events"
+    )
     @JsonIgnore
-    @ManyToMany(mappedBy = "events")
     private Set<User> users = new LinkedHashSet<>();
 
     public Set<User> getUsers() {
