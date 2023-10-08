@@ -98,11 +98,13 @@ public class BadgeController {
 
         else
             badge = badgeRepository.findById(badgeReq.getId())
-                .orElseThrow(() -> new ResourceNotFoundException("Badge with id = " + badgeReq.getId()));
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Badge with id = " + badgeReq.getId()));
 
         user.addBadge(badge);
         userRepository.save(user);
         return new ResponseEntity<>(badge, HttpStatus.CREATED);
+    }
 
     }
 }
