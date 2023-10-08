@@ -24,7 +24,8 @@ public class Badge {
             fetch = FetchType.LAZY,
             cascade = {
                     CascadeType.PERSIST,
-                    CascadeType.MERGE
+                    CascadeType.MERGE,
+                    CascadeType.REFRESH
             },
             mappedBy = "badges"
     )
