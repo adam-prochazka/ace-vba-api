@@ -135,5 +135,18 @@ public class BadgeController {
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @DeleteMapping("/badges/{badgeId}/users")
+    public ResponseEntity<HttpStatus> deleteAllUsersFromBadge(
+            @PathVariable(value = "badgeId") Long badgeId) {
+
+        Badge badge = badgeRepository.findById(badgeId)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Badge with id = " + badgeId));
+
+        badge.removeAllUsers();
+        badgeRepository.save(badge);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
