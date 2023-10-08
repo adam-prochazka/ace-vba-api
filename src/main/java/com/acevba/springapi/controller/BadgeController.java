@@ -65,8 +65,10 @@ public class BadgeController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PostMapping("/users/{userId}/badge")
-    public ResponseEntity<Badge> addbadge(@PathVariable(value = "userId") Long userId, @RequestBody Badge badgeReq) {
+    @PostMapping("/users/{userId}/badges")
+    public ResponseEntity<Badge> addBadge(
+            @PathVariable(value = "userId") Long userId,
+            @RequestBody Badge badgeReq) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User with id = " + userId));
 
