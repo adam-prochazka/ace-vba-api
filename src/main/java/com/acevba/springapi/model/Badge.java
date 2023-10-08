@@ -51,6 +51,12 @@ public class Badge {
         this.users = users;
     }
 
+    public void removeAllUsers() {
+        this.users.forEach(u ->
+                u.removeBadge(this)
+        );
+    }
+
     public String getRole() {
         return role;
     }
