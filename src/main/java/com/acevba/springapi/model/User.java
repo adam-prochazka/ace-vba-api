@@ -81,4 +81,12 @@ public class User {
         events.add(event);
         event.getUsers().add(this);
     }
+
+    public void removeBadge(Badge badge) {
+        badges.remove(badge);
+    }
+
+    public void removeAllBadges() {
+        badges.clear();
+    }
 }
