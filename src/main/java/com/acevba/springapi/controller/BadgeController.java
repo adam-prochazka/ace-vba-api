@@ -73,6 +73,17 @@ public class BadgeController {
                 .orElseThrow(() -> new ResourceNotFoundException("User with id = " + userId));
         return new ResponseEntity<>(user.getBadges(), HttpStatus.OK);
     }
+
+    @GetMapping("/badges/{badgeId}/users")
+    public ResponseEntity<Set<User>> getAllUsersByBadgeId(
+            @PathVariable(value = "badgeId") Long badgeId) {
+        Badge badge = badgeRepository.findById(badgeId)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Badge with id = " + badgeId));
+
+        return new ResponseEntity<>(badge.getUsers(), HttpStatus.OK);
+    }
+
     @PostMapping("/users/{userId}/badges")
     public ResponseEntity<Badge> addBadge(
             @PathVariable(value = "userId") Long userId,
