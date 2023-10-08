@@ -106,5 +106,21 @@ public class BadgeController {
         return new ResponseEntity<>(badge, HttpStatus.CREATED);
     }
 
+    @DeleteMapping("/users/{userId}/badges/{badgeId}")
+    public ResponseEntity<HttpStatus> deleteBadgeFromUser(
+            @PathVariable(value = "userId") Long userId,
+            @PathVariable(value = "badgeId") Long badgeId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "User with id = " + userId));
+        Badge badge = badgeRepository.findById(badgeId)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Badge with id = " + badgeId));
+
+        user.removeBadge(badge);
+        userRepository.save(user);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
     }
 }
