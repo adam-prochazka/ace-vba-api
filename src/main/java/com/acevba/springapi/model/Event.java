@@ -70,6 +70,11 @@ public class Event {
         this.name = name;
     }
 
+    public void removeAllUsers() {
+        users.forEach(u ->
+                u.removeEvent(this));
+    }
+
     @Override
     public final boolean equals(Object o) {
         if (this == o) return true;

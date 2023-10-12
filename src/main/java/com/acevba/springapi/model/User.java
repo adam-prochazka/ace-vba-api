@@ -89,4 +89,12 @@ public class User {
     public void removeAllBadges() {
         badges.clear();
     }
+
+    public void removeEvent(Event event) {
+        events.remove(event);
+    }
+
+    public void removeAllEvents() {
+        events.clear();
+    }
 }
