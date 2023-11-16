@@ -1,5 +1,6 @@
 package com.acevba.springapi.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.LinkedHashSet;
@@ -15,6 +16,7 @@ public class User {
     private Long id;
     @Column(name = "username", nullable = false, unique = false)
     private String username;
+    @JsonIgnore
     @ManyToMany(
             fetch = FetchType.LAZY,
             cascade = {
@@ -24,6 +26,7 @@ public class User {
             }
     )
     private Set<Badge> badges = new LinkedHashSet<>();
+    @JsonIgnore
     @ManyToMany(
             fetch = FetchType.LAZY,
             cascade = {
