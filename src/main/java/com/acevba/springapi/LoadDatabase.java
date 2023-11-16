@@ -34,5 +34,4 @@ class LoadDatabase {
             log.info("Preloading " + repository.save(new Badge("level2", "role2")));
         };
     }
-
 }

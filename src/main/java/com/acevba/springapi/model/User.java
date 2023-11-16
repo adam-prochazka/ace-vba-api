@@ -2,7 +2,6 @@ package com.acevba.springapi.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -14,32 +13,24 @@ public class User {
     @SequenceGenerator(name = "user_seq", allocationSize = 1)
     @Column(name = "id", nullable = false)
     private Long id;
+
     @Column(name = "username", nullable = false, unique = false)
     private String username;
+
     @JsonIgnore
     @ManyToMany(
             fetch = FetchType.LAZY,
-            cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE,
-                    CascadeType.REFRESH
-            }
-    )
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     private Set<Badge> badges = new LinkedHashSet<>();
+
     @JsonIgnore
     @ManyToMany(
             fetch = FetchType.LAZY,
-            cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE,
-                    CascadeType.REFRESH
-            }
-    )
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinTable(
             name = "user_events",
             joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "event_id")
-    )
+            inverseJoinColumns = @JoinColumn(name = "event_id"))
     private Set<Event> events = new LinkedHashSet<>();
 
     public Set<Event> getEvents() {
@@ -51,6 +42,7 @@ public class User {
     }
 
     public User() {}
+
     public User(String username) {
         this.username = username;
     }

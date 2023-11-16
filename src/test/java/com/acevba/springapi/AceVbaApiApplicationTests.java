@@ -1,3 +1,4 @@
+/* (C) 2023 */
 package com.acevba.springapi;
 
 import org.junit.jupiter.api.Test;
@@ -7,7 +8,5 @@ import org.springframework.boot.test.context.SpringBootTest;
 class AceVbaApiApplicationTests {
 
     @Test
-    void contextLoads() {
-    }
-
+    void contextLoads() {}
 }

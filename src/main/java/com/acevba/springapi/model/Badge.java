@@ -2,11 +2,10 @@ package com.acevba.springapi.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import org.hibernate.proxy.HibernateProxy;
-
 import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
+import org.hibernate.proxy.HibernateProxy;
 
 @Entity
 @Table(name = "badges")
@@ -16,19 +15,17 @@ public class Badge {
     @SequenceGenerator(name = "badge_seq", allocationSize = 1)
     @Column(name = "id", nullable = false)
     private Long id;
+
     @Column(name = "level", nullable = false)
     private String level;
+
     @Column(name = "role", nullable = false)
     private String role;
+
     @ManyToMany(
             fetch = FetchType.LAZY,
-            cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE,
-                    CascadeType.REFRESH
-            },
-            mappedBy = "badges"
-    )
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH},
+            mappedBy = "badges")
     @JsonIgnore
     private Set<User> users = new LinkedHashSet<>();
 
@@ -52,9 +49,7 @@ public class Badge {
     }
 
     public void removeAllUsers() {
-        this.users.forEach(u ->
-                u.removeBadge(this)
-        );
+        this.users.forEach(u -> u.removeBadge(this));
     }
 
     public String getRole() {
@@ -77,8 +72,14 @@ public class Badge {
     public final boolean equals(Object o) {
         if (this == o) return true;
         if (o == null) return false;
-        Class<?> oEffectiveClass = o instanceof HibernateProxy ? ((HibernateProxy) o).getHibernateLazyInitializer().getPersistentClass() : o.getClass();
-        Class<?> thisEffectiveClass = this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass() : this.getClass();
+        Class<?> oEffectiveClass =
+                o instanceof HibernateProxy
+                        ? ((HibernateProxy) o).getHibernateLazyInitializer().getPersistentClass()
+                        : o.getClass();
+        Class<?> thisEffectiveClass =
+                this instanceof HibernateProxy
+                        ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass()
+                        : this.getClass();
         if (thisEffectiveClass != oEffectiveClass) return false;
         Badge badge = (Badge) o;
         return getId() != null && Objects.equals(getId(), badge.getId());
@@ -86,6 +87,11 @@ public class Badge {
 
     @Override
     public final int hashCode() {
-        return this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass().hashCode() : getClass().hashCode();
+        return this instanceof HibernateProxy
+                ? ((HibernateProxy) this)
+                        .getHibernateLazyInitializer()
+                        .getPersistentClass()
+                        .hashCode()
+                : getClass().hashCode();
     }
 }
