@@ -6,6 +6,7 @@ import com.acevba.springapi.model.User;
 import com.acevba.springapi.repository.BadgeRepository;
 import com.acevba.springapi.repository.UserRepository;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -31,11 +32,14 @@ public class BadgeController {
     @Autowired
     private UserRepository userRepository;
 
-    @Operation(summary = "Get all badges", tags = { "badges", "get" })
+    @Operation(summary = "Get all badges")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", content = {
-                    @Content(schema = @Schema(implementation = Badge.class), mediaType = "application/json") }),
-            @ApiResponse(responseCode = "500", content = { @Content(schema = @Schema()) }) })
+        @ApiResponse(
+            responseCode = "200",
+            description = "List of all badges",
+            content = {@Content(
+                        mediaType = "application/json",
+                        array = @ArraySchema(schema = @Schema(implementation = Badge.class)))})})
     @GetMapping("/badges")
     public ResponseEntity<List<Badge>> getAllBadges() {
         List<Badge> badges = new ArrayList<>();
@@ -43,37 +47,29 @@ public class BadgeController {
         return new ResponseEntity<>(badges, HttpStatus.OK);
     }
 
-    @Operation(summary = "Get a badge by ID", tags = { "badges", "get" })
+    @Operation(summary = "Get badge detail")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", content = {
-                    @Content(schema = @Schema(implementation = Badge.class), mediaType = "application/json") }),
-            @ApiResponse(responseCode = "404", content = { @Content(schema = @Schema()) }),
-            @ApiResponse(responseCode = "500", content = { @Content(schema = @Schema()) }) })
+            @ApiResponse(responseCode = "200", description = "Badge detail", content = {
+                    @Content(schema = @Schema(implementation = Badge.class), mediaType = "application/json") })})
     @GetMapping("/badges/{id}")
     public ResponseEntity<Badge> getBadgeById(@PathVariable Long id) {
         return new ResponseEntity<>(badgeRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Badge with id = " + id)), HttpStatus.OK);
     }
 
-    @Operation(summary = "Create a new badge", tags = { "badges", "post" })
+    @Operation(summary = "Create a new badge")
     @ApiResponses({
-            @ApiResponse(responseCode = "201", content = {
-                    @Content(schema = @Schema(implementation = Badge.class), mediaType = "application/json") }),
-            @ApiResponse(responseCode = "500", content = { @Content(schema = @Schema()) }) })
+            @ApiResponse(responseCode = "201", description = "Created badge", content = {
+                    @Content(schema = @Schema(implementation = Badge.class), mediaType = "application/json") })})
     @PostMapping("/badges")
     public ResponseEntity<Badge> createBadge(@RequestBody Badge badge) {
         return new ResponseEntity<>(badgeRepository.save(badge), HttpStatus.CREATED);
     }
 
-    /**
-     * Preserve id
-     */
-    @Operation(summary = "Update a badge", tags = { "badges", "put" })
+    @Operation(summary = "Edit a badge")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", content = {
-                    @Content(schema = @Schema(implementation = Badge.class), mediaType = "application/json") }),
-            @ApiResponse(responseCode = "404", content = { @Content(schema = @Schema()) }),
-            @ApiResponse(responseCode = "500", content = { @Content(schema = @Schema()) }) })
+            @ApiResponse(responseCode = "200", description = "Edited badge", content = {
+                    @Content(schema = @Schema(implementation = Badge.class), mediaType = "application/json") })})
     @PutMapping("/badges/{id}")
     public ResponseEntity<Badge> updateBadge(@RequestBody Badge badge, @PathVariable Long id) {
         Badge _badge = badgeRepository.findById(id)
@@ -84,33 +80,28 @@ public class BadgeController {
         return new ResponseEntity<>(badgeRepository.save(_badge), HttpStatus.OK);
     }
 
-    @Operation(summary = "Delete a badge", tags = { "badges", "delete" })
+    @Operation(summary = "Delete a badge")
     @ApiResponses({
-            @ApiResponse(responseCode = "204", content = { @Content(schema = @Schema()) }),
-            @ApiResponse(responseCode = "500", content = { @Content(schema = @Schema()) }) })
+            @ApiResponse(responseCode = "200", description = "Deleted successfully", content = { @Content })})
     @DeleteMapping("/badges/{id}")
     public ResponseEntity<HttpStatus> deleteBadge(@PathVariable Long id) {
         badgeRepository.deleteById(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @Operation(summary = "Delete all badges", tags = { "badges", "delete" })
+    @Operation(summary = "Delete all badges")
     @ApiResponses({
-            @ApiResponse(responseCode = "204", content = { @Content(schema = @Schema()) }),
-            @ApiResponse(responseCode = "500", content = { @Content(schema = @Schema()) }) })
+            @ApiResponse(responseCode = "200", description = "Deleted successfully", content = { @Content })})
     @DeleteMapping("/badges")
     public ResponseEntity<HttpStatus> deleteAllBadges() {
         badgeRepository.deleteAll();
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-
-    @Operation(summary = "Get all badges by user ID", tags = { "badges", "get" })
+    @Operation(summary = "Get all user's badges")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", content = {
-                    @Content(schema = @Schema(implementation = Set.class), mediaType = "application/json") }),
-            @ApiResponse(responseCode = "404", content = { @Content(schema = @Schema()) }),
-            @ApiResponse(responseCode = "500", content = { @Content(schema = @Schema()) }) })
+            @ApiResponse(responseCode = "200", description = "List of user's badges", content = {
+                    @Content(array = @ArraySchema(schema = @Schema(implementation = Badge.class)), mediaType = "application/json")})})
     @GetMapping("/users/{userId}/badges")
     public ResponseEntity<Set<Badge>> getAllBadgesByUserId(
             @PathVariable(value = "userId") Long userId) {
@@ -119,12 +110,10 @@ public class BadgeController {
         return new ResponseEntity<>(user.getBadges(), HttpStatus.OK);
     }
 
-    @Operation(summary = "Get all users by badge ID", tags = { "badges", "get" })
+    @Operation(summary = "Get users corresponding to a badge")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", content = {
-                    @Content(schema = @Schema(implementation = Set.class), mediaType = "application/json") }),
-            @ApiResponse(responseCode = "404", content = { @Content(schema = @Schema()) }),
-            @ApiResponse(responseCode = "500", content = { @Content(schema = @Schema()) }) })
+            @ApiResponse(responseCode = "200", description = "List of users", content = {
+                    @Content(array = @ArraySchema(schema = @Schema(implementation = Set.class)), mediaType = "application/json") })})
     @GetMapping("/badges/{badgeId}/users")
     public ResponseEntity<Set<User>> getAllUsersByBadgeId(
             @PathVariable(value = "badgeId") Long badgeId) {
@@ -135,12 +124,10 @@ public class BadgeController {
         return new ResponseEntity<>(badge.getUsers(), HttpStatus.OK);
     }
 
-    @Operation(summary = "Add a badge to a user", tags = { "badges", "post" })
+    @Operation(summary = "Add a badge to a user")
     @ApiResponses({
-            @ApiResponse(responseCode = "201", content = {
-                    @Content(schema = @Schema(implementation = Badge.class), mediaType = "application/json") }),
-            @ApiResponse(responseCode = "404", content = { @Content(schema = @Schema()) }),
-            @ApiResponse(responseCode = "500", content = { @Content(schema = @Schema()) }) })
+            @ApiResponse(responseCode = "201", description = "Badge added to user", content = {
+                    @Content(schema = @Schema(implementation = Badge.class), mediaType = "application/json") })})
     @PostMapping("/users/{userId}/badges")
     public ResponseEntity<Badge> addBadge(
             @PathVariable(value = "userId") Long userId,
@@ -163,11 +150,9 @@ public class BadgeController {
         return new ResponseEntity<>(badge, HttpStatus.CREATED);
     }
 
-    @Operation(summary = "Delete a badge from a user", tags = { "badges", "delete" })
+    @Operation(summary = "Remove a badge from user")
     @ApiResponses({
-            @ApiResponse(responseCode = "204", content = { @Content(schema = @Schema()) }),
-            @ApiResponse(responseCode = "404", content = { @Content(schema = @Schema()) }),
-            @ApiResponse(responseCode = "500", content = { @Content(schema = @Schema()) }) })
+            @ApiResponse(responseCode = "200", description = "Removed successfully", content = { @Content })})
     @DeleteMapping("/users/{userId}/badges/{badgeId}")
     public ResponseEntity<HttpStatus> deleteBadgeFromUser(
             @PathVariable(value = "userId") Long userId,
@@ -182,14 +167,12 @@ public class BadgeController {
         user.removeBadge(badge);
         userRepository.save(user);
 
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @Operation(summary = "Delete all badges from a user", tags = { "badges", "delete" })
+    @Operation(summary = "Remove all badges from user")
     @ApiResponses({
-            @ApiResponse(responseCode = "204", content = { @Content(schema = @Schema()) }),
-            @ApiResponse(responseCode = "404", content = { @Content(schema = @Schema()) }),
-            @ApiResponse(responseCode = "500", content = { @Content(schema = @Schema()) }) })
+            @ApiResponse(responseCode = "200", description = "Removed successfully", content = { @Content })})
     @DeleteMapping("/users/{userId}/badges")
     public ResponseEntity<HttpStatus> deleteAllBadgesFromUser(
             @PathVariable(value = "userId") Long userId) {
@@ -200,14 +183,12 @@ public class BadgeController {
         user.removeAllBadges();
         userRepository.save(user);
 
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @Operation(summary = "Delete all users from a badge", tags = { "badges", "delete" })
+    @Operation(summary = "Remove all users from a badge")
     @ApiResponses({
-            @ApiResponse(responseCode = "204", content = { @Content(schema = @Schema()) }),
-            @ApiResponse(responseCode = "404", content = { @Content(schema = @Schema()) }),
-            @ApiResponse(responseCode = "500", content = { @Content(schema = @Schema()) }) })
+            @ApiResponse(responseCode = "200", description = "Removed successfully", content = { @Content })})
     @DeleteMapping("/badges/{badgeId}/users")
     public ResponseEntity<HttpStatus> deleteAllUsersFromBadge(
             @PathVariable(value = "badgeId") Long badgeId) {
@@ -219,6 +200,6 @@ public class BadgeController {
         badge.removeAllUsers();
         badgeRepository.save(badge);
 
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
