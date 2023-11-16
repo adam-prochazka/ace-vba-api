@@ -38,5 +38,5 @@ test:
 
 deploy:
   stage: deploy
-  script: echo "Define your deployment script!"
+  script: echo "Define your deployment script!" "$MY_MASKED_VAR"
   environment: production
