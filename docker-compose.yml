@@ -1,29 +1,32 @@
 version: '3.9'
 
 services:
-  app:
+  api:
     build: .
-    image: ace-vba-app
+    image: ace_vba_api
+    container_name: ace_vba_api
     depends_on:
       db:
         condition: service_healthy
-    container_name: ace_vba_app
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/ace_vba_db
-      - SPRING_DATASOURCE_USERNAME=postgres
-      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/${DB_NAME}
+      - SPRING_DATASOURCE_USERNAME=${DB_USER}
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
     ports:
       - "8080:8080"
 
   db:
-    image: postgres
+    image: postgres:alpine
+    restart: always
     container_name: ace_vba_db
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=ace_vba_db
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
     ports:
           - '5432:5432'
+    volumes:
+      - .docker/postgres-data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD", "pg_isready", "-q"]
       interval: 5s
