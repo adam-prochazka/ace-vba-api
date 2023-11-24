@@ -10,5 +10,6 @@ FROM openjdk:17-slim as run
 WORKDIR /app
 COPY --from=build /app/build/libs/*.jar app.jar
 COPY run.sh .
+RUN chmod +x run.sh
 EXPOSE 8080
 ENTRYPOINT ./run.sh

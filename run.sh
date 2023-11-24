@@ -1,2 +1,4 @@
 #!/bin/sh
-exec java -jar /app.jar
+echo "hello from script"
+ls -la
+exec java -jar /app/app.jar
